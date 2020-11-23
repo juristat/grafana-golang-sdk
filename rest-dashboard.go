@@ -326,6 +326,19 @@ func (r *Client) DeleteDashboard(ctx context.Context, slug string) (StatusMessag
 	return reply, err
 }
 
+func (r *Client) DeleteDashboardByUID(ctx context.Context, uid string) (StatusMessage, error) {
+	var (
+		raw   []byte
+		reply StatusMessage
+		err   error
+	)
+	if raw, _, err = r.delete(ctx, fmt.Sprintf("api/dashboards/uid/%s", uid)); err != nil {
+		return StatusMessage{}, err
+	}
+	err = json.Unmarshal(raw, &reply)
+	return reply, err
+}
+
 type (
 	// SearchParam is a type for specifying Search params.
 	SearchParam func(*url.Values)
